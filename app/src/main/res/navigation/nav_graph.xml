@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/galleryFragment">
+
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.task.natife.ui.screens.GalleryFragment"
+        android:label="GalleryFragment">
+        <action
+            android:id="@+id/action_galleryFragment_to_gifFragment"
+            app:destination="@id/gifFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/gifFragment"
+        android:name="com.task.natife.ui.screens.GifFragment"
+        android:label="GifFragment" />
+
+</navigation>

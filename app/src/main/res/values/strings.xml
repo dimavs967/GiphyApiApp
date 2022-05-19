@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Natife</string>
+    <string name="search_bar_hint">Find your gif</string>
+
 </resources>
