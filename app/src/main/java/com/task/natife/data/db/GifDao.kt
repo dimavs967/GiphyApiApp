@@ -3,13 +3,14 @@ package com.task.natife.data.db
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.task.natife.model.GifEntity
+import androidx.room.Query
+import com.task.natife.model.GifModel
 
 @Dao
-interface UserDao {
+interface GifDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertItem(gifEntity: GifEntity)
+    suspend fun insertItem(gifModel: GifModel)
 
 
 

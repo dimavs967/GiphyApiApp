@@ -5,9 +5,11 @@
       <map>
         <entry key="app/src/main/res/drawable/custom_edit_text.xml" value="0.1675" />
         <entry key="app/src/main/res/drawable/ic_baseline_search.xml" value="0.1675" />
+        <entry key="app/src/main/res/drawable/toolbar.xml" value="0.171" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_gif.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/fullscreen_item.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.19610507246376813" />
       </map>
     </option>

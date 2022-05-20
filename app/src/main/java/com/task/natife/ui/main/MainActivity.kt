@@ -18,4 +18,9 @@ class MainActivity : AppCompatActivity() {
             hideSoftInputFromWindow(currentFocus?.windowToken, 0)
         }
     }
+
+//    fun clearCache() {
+//        this.cacheDir?.deleteRecursively()
+//    }
+
 }

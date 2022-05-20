@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/galleryFragment"
-        android:name="com.task.natife.ui.screens.GalleryFragment"
+        android:name="com.task.natife.ui.screens.gallery.GalleryFragment"
         android:label="GalleryFragment">
         <action
             android:id="@+id/action_galleryFragment_to_gifFragment"
@@ -15,7 +15,15 @@
 
     <fragment
         android:id="@+id/gifFragment"
-        android:name="com.task.natife.ui.screens.GifFragment"
-        android:label="GifFragment" />
+        android:name="com.task.natife.ui.screens.gif.GifFragment"
+        android:label="GifFragment">
+        <action
+            android:id="@+id/action_gifFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+        <argument
+            android:name="position"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>
