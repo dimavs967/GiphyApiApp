@@ -39,8 +39,6 @@ class GifFragment : Fragment() {
             false
         )
 
-        binding.recyclerView.adapter = adapter
-
         viewModel.getListLiveData().observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 adapter?.initAdapter(it, R.layout.fullscreen_item, requireContext())
@@ -48,6 +46,7 @@ class GifFragment : Fragment() {
             }
         }
 
+        binding.recyclerView.adapter = adapter
         return binding.root
     }
 

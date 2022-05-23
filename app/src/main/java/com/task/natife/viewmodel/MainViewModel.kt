@@ -1,12 +1,10 @@
 package com.task.natife.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.task.natife.data.remote.VolleyService
 import com.task.natife.data.repository.UserRepository
-import com.task.natife.model.GifListModel
 import com.task.natife.model.GifModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.json.JSONArray
@@ -21,9 +19,9 @@ class MainViewModel @Inject constructor(
     private val repo: UserRepository
 ) : ViewModel() {
 
-    private val listLiveData = MutableLiveData<GifListModel>()
+    private val listLiveData = MutableLiveData<MutableList<GifModel>>()
 
-    fun getListLiveData(): LiveData<GifListModel> {
+    fun getListLiveData(): LiveData<MutableList<GifModel>> {
         return listLiveData
     }
 
@@ -32,24 +30,22 @@ class MainViewModel @Inject constructor(
         listLiveData.postValue(data)
     }
 
-    suspend fun insertGifList() {
-
-    }
-
-    suspend fun getList() {
-
+    suspend fun insertItem(i: Int) {
+        listLiveData.value?.get(i)?.let { repo.insertItem(it) }
+        listLiveData.value?.removeAt(i)
+        listLiveData.notifyObserver()
     }
 
     private suspend fun parseJson(dataArray: JSONArray): MutableList<GifModel> {
         return suspendCoroutine {
-            val gif = mutableListOf<GifModel>()
-            val list = mutableListOf<GifListModel>()
+
+            val list = mutableListOf<GifModel>()
 
             for (i in 0 until dataArray.length()) {
                 val imagesField = dataArray.getJSONObject(i).get("images") as JSONObject
                 val sizeField = imagesField.getJSONObject("downsized_medium")
 
-                gif.add(
+                list.add(
                     GifModel(
                         dataArray.getJSONObject(i).getString("type"),
                         dataArray.getJSONObject(i).getString("id"),
@@ -61,9 +57,9 @@ class MainViewModel @Inject constructor(
             it.resume(list)
         }
     }
-//
-//    suspend fun checkGifId() {
-//
-//    }
+
+    private fun <T> MutableLiveData<T>.notifyObserver() {
+        this.value = this.value
+    }
 
 }

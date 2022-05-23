@@ -34,7 +34,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideUserRepository(database: UserDatabase): UserRepository {
-        return UserRepository(database.gifDao(), database.listDao())
+        return UserRepository(database.gifDao())
     }
 
 }

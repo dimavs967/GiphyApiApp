@@ -1,7 +1,7 @@
 package com.task.natife.data.remote
 
-import com.task.natife.model.GifModel
+import org.json.JSONArray
 
 interface IVolleyService {
-    suspend fun jsonRequest(item: String): MutableList<GifModel>
+    suspend fun jsonRequest(item: String): JSONArray
 }

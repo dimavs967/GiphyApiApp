@@ -1,22 +1,19 @@
 package com.task.natife.data.repository
 
 import com.task.natife.data.db.GifDao
-import com.task.natife.data.db.GifListDao
-import com.task.natife.model.GifListModel
 import com.task.natife.model.GifModel
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
-    private val gifDao: GifDao,
-    private val gifListDao: GifListDao
-) {
+    private val gifDao: GifDao
+): IUserRepository {
 
-    suspend fun insertList(list: GifListModel) {
-        gifListDao.insertList(list)
+    override suspend fun insertItem(gifModel: GifModel) {
+        gifDao.insertItem(gifModel)
     }
 
-    suspend fun getList(): GifListModel {
-        return gifListDao.getAllItems()
+    override fun getItem(id: String): GifModel {
+        return gifDao.getHiddenItem(id)
     }
 
 }

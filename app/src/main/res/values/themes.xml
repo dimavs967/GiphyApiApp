@@ -13,7 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     </style>
 
-    <style name="Theme.Natife.CustomTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="Theme.Natife.CustomTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
 <!--        <item name="android:autofilledHighlight" tools:ignore="NewApi">@android:color/transparent</item>-->
 <!--        <item name="android:textColorHint">@color/white</item>-->

@@ -6,8 +6,6 @@ interface IUserRepository {
 
     suspend fun insertItem(gifModel: GifModel)
 
-    suspend fun insertList(gifList: List<GifModel>)
-
-    suspend fun getList(): List<GifModel>
+    fun getItem(id: String): GifModel
 
 }

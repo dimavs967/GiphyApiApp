@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.task.natife.R
 import com.task.natife.databinding.FragmentGalleryBinding
 import com.task.natife.ui.main.MainActivity
@@ -19,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class GalleryFragment : Fragment() {
@@ -28,11 +31,6 @@ class GalleryFragment : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
     private var adapter: GalleryAdapter? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        CoroutineScope(Dispatchers.Main).launch { viewModel.getList() }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,9 +49,7 @@ class GalleryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getListLiveData().observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                adapter?.initAdapter(it, R.layout.list_item, requireContext())
-            }
+            adapter?.initAdapter(it, R.layout.list_item, requireContext())
         }
 
         adapter?.setOnClickListener {
@@ -65,7 +61,7 @@ class GalleryFragment : Fragment() {
         }
 
         adapter?.setOnLongClickListener {
-            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
+            showAlertDialog(it)
             return@setOnLongClickListener true
         }
 
@@ -75,7 +71,7 @@ class GalleryFragment : Fragment() {
                     val inputValue = binding.searchBar.text.toString()
 
                     if (inputValue.isNotEmpty()) {
-                        CoroutineScope(Dispatchers.Main).launch {
+                        CoroutineScope(Dispatchers.IO).launch {
                             viewModel.searchRequest(inputValue)
                         }
 
@@ -89,11 +85,17 @@ class GalleryFragment : Fragment() {
         })
     }
 
-    override fun onPause() {
-        super.onPause()
-        CoroutineScope(Dispatchers.Main).launch {
-            viewModel.insertGifList()
-        }
+    private fun showAlertDialog(it: Int) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Delete Item?")
+            .setMessage("This will be hidden at the next request to the server")
+            .setPositiveButton("Yes") { _, _ ->
+                (requireActivity() as MainActivity).showSnackBar("Item hidden")
+
+                CoroutineScope(Dispatchers.Main).launch { viewModel.insertItem(it) }
+                adapter?.notifyItemRemoved(it)
+            }
+            .show()
     }
 
     override fun onDestroyView() {

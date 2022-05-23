@@ -32,6 +32,7 @@ class GalleryAdapter(
     fun initAdapter(userModel: List<GifModel>, itemLayout: Int, context: Context) {
         list.clear()
         list.addAll(userModel)
+
         mContext = context
         listItemView = itemLayout
         notifyDataSetChanged()
