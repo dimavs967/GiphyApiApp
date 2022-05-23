@@ -3,11 +3,12 @@ package com.task.natife.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.task.natife.data.remote.VolleyService
 import com.task.natife.data.repository.UserRepository
 import com.task.natife.model.GifModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.json.JSONArray
 import org.json.JSONObject
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -26,8 +27,11 @@ class MainViewModel @Inject constructor(
     }
 
     suspend fun searchRequest(item: String) {
-        val data = parseJson(netService.jsonRequest(item))
-        listLiveData.postValue(data)
+        val gifsList = parseJson(
+            netService.jsonRequest(item)
+        )
+
+        listLiveData.postValue(gifsList)
     }
 
     suspend fun insertItem(i: Int) {
@@ -36,20 +40,24 @@ class MainViewModel @Inject constructor(
         listLiveData.notifyObserver()
     }
 
-    private suspend fun parseJson(dataArray: JSONArray): MutableList<GifModel> {
+    private suspend fun parseJson(response: JSONObject): MutableList<GifModel> {
         return suspendCoroutine {
 
             val list = mutableListOf<GifModel>()
+            val data = Gson().fromJson(
+                response.toString(),
+                JsonObject::class.java
+            ).getAsJsonArray("data")
 
-            for (i in 0 until dataArray.length()) {
-                val imagesField = dataArray.getJSONObject(i).get("images") as JSONObject
-                val sizeField = imagesField.getJSONObject("downsized_medium")
-
+            for (i in 0 until data.size()) {
                 list.add(
                     GifModel(
-                        dataArray.getJSONObject(i).getString("type"),
-                        dataArray.getJSONObject(i).getString("id"),
-                        sizeField.getString("url")
+                        data.get(i).asJsonObject["type"].asString,
+                        data.get(i).asJsonObject["id"].asString,
+                        data.get(i).asJsonObject["images"]
+                            .asJsonObject["downsized_medium"]
+                            .asJsonObject["url"]
+                            .asString
                     )
                 )
             }

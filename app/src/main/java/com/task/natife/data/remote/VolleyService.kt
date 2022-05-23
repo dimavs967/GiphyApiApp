@@ -6,27 +6,26 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.task.natife.constants.Constants.BASE_URL
 import com.task.natife.constants.Constants.GIPHY_API_KEY
-import org.json.JSONArray
+import org.json.JSONObject
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class VolleyService @Inject constructor(
     private val requestQueue: RequestQueue
-): IVolleyService {
+) {
+    suspend fun jsonRequest(item: String): JSONObject {
 
-    override suspend fun jsonRequest(item: String): JSONArray {
         val url = "${BASE_URL}search?api_key=${GIPHY_API_KEY}&amp;q=${item}&amp;limit=10"
 
         return suspendCoroutine {
-            val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
+            val jsonObjectRequest = JsonObjectRequest(
+                Request.Method.GET, url, null,
                 { response ->
-                    val dataArray = response.getJSONArray("data")
-
-                    it.resume(dataArray)
+                    it.resume(response)
                 },
                 { error ->
-                    Log.e("VolleyError", "Error: $error")
+                    Log.e("RequestError", "$error")
                 }
             )
 
