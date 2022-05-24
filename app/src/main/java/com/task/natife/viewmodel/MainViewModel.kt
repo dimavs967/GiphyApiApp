@@ -7,6 +7,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.task.natife.data.remote.VolleyService
 import com.task.natife.data.repository.MainRepository
+import com.task.natife.model.GifListModel
 import com.task.natife.model.GifModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.json.JSONObject
@@ -37,7 +38,22 @@ class MainViewModel @Inject constructor(
             netService.jsonRequest(item)
         )
 
+        repository.insertList(GifListModel(gifsList))
         listLiveData.postValue(gifsList)
+    }
+
+    fun restoreRequestsHistory() {
+        val pastRequests = repository.getAllList()
+
+        val itemsList = mutableListOf<GifModel>()
+        val hiddenItems = repository.getHiddenItems()
+
+        for(i in pastRequests.indices) {
+            itemsList.addAll(pastRequests[i].list)
+        }
+
+        itemsList.removeAll(hiddenItems)
+        listLiveData.postValue(itemsList)
     }
 
     private suspend fun parseJson(response: JSONObject): MutableList<GifModel> {

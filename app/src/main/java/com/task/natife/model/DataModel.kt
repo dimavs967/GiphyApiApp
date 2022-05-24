@@ -12,3 +12,11 @@ data class GifModel(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 }
+
+@Entity(tableName = "gifs_list_table")
+data class GifListModel(
+    var list: List<GifModel>
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}

@@ -35,7 +35,7 @@ object AppModule {
     fun provideMainRepository(
         database: UserDatabase
     ): MainRepository {
-        return MainRepository(database.gifDao())
+        return MainRepository(database.gifDao(), database.gifListDao())
     }
 
 }
