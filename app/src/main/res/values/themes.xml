@@ -15,8 +15,6 @@
 
     <style name="Theme.Natife.CustomTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
-<!--        <item name="android:autofilledHighlight" tools:ignore="NewApi">@android:color/transparent</item>-->
-<!--        <item name="android:textColorHint">@color/white</item>-->
     </style>
 
     <style name="item_corners" parent="">

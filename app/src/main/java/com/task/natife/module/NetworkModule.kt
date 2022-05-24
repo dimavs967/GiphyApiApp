@@ -17,7 +17,9 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideVolleyService(requestQueue: RequestQueue): VolleyService {
+    fun provideVolleyService(
+        requestQueue: RequestQueue
+    ): VolleyService {
         return VolleyService(requestQueue)
     }
 

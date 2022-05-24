@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -19,10 +20,6 @@ class MainActivity : AppCompatActivity() {
             hideSoftInputFromWindow(currentFocus?.windowToken, 0)
         }
     }
-
-//    fun clearCache() {
-//        this.cacheDir?.deleteRecursively()
-//    }
 
     fun showSnackBar(message: String) {
         Snackbar.make(

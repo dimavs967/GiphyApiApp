@@ -2,10 +2,10 @@ package com.task.natife.data.repository
 
 import com.task.natife.model.GifModel
 
-interface IUserRepository {
+interface IMainRepository {
 
     suspend fun insertItem(gifModel: GifModel)
 
-    fun getAllItems(): MutableList<GifModel>
+    fun getHiddenItems(): MutableList<GifModel>
 
 }

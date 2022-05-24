@@ -14,6 +14,7 @@ import com.task.natife.R
 import com.task.natife.databinding.FragmentGalleryBinding
 import com.task.natife.ui.main.MainActivity
 import com.task.natife.ui.screens.adapter.GalleryAdapter
+import com.task.natife.utils.NetworkUtility
 import com.task.natife.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -44,6 +45,10 @@ class GalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+//        NetworkUtility().getNetworkStateLiveData(requireContext()).observe(viewLifecycleOwner) {
+//            println("test: $it")
+//        }
 
         viewModel.getListLiveData().observe(viewLifecycleOwner) {
             adapter?.initAdapter(it, R.layout.list_item, requireContext())
@@ -79,15 +84,15 @@ class GalleryFragment : Fragment() {
         })
     }
 
-    private fun showAlertDialog(it: Int) {
+    private fun showAlertDialog(itemIndex: Int) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Delete Item?")
             .setMessage("This will be hidden at the next request to the server")
             .setPositiveButton("Yes") { _, _ ->
                 (requireActivity() as MainActivity).showSnackBar("Item hidden")
 
-                CoroutineScope(Dispatchers.Main).launch { viewModel.insertItem(it) }
-                adapter?.notifyItemRemoved(it)
+                CoroutineScope(Dispatchers.Main).launch { viewModel.insertItem(itemIndex) }
+                adapter?.notifyItemRemoved(itemIndex)
             }
             .show()
     }

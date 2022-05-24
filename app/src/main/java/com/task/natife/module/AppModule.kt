@@ -3,8 +3,7 @@ package com.task.natife.module
 import android.content.Context
 import androidx.room.Room
 import com.task.natife.data.db.UserDatabase
-import com.task.natife.data.repository.UserRepository
-import com.task.natife.utils.ListConverter
+import com.task.natife.data.repository.MainRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,8 +32,10 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideUserRepository(database: UserDatabase): UserRepository {
-        return UserRepository(database.gifDao())
+    fun provideMainRepository(
+        database: UserDatabase
+    ): MainRepository {
+        return MainRepository(database.gifDao())
     }
 
 }

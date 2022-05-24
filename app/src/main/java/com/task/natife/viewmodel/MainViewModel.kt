@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.task.natife.data.remote.VolleyService
-import com.task.natife.data.repository.UserRepository
+import com.task.natife.data.repository.MainRepository
 import com.task.natife.model.GifModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.json.JSONObject
@@ -17,7 +17,7 @@ import kotlin.coroutines.suspendCoroutine
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val netService: VolleyService,
-    private val repo: UserRepository
+    private val repository: MainRepository
 ) : ViewModel() {
 
     private val listLiveData = MutableLiveData<MutableList<GifModel>>()
@@ -27,7 +27,7 @@ class MainViewModel @Inject constructor(
     }
 
     suspend fun insertItem(i: Int) {
-        listLiveData.value?.get(i)?.let { repo.insertItem(it) }
+        listLiveData.value?.get(i)?.let { repository.insertItem(it) }
         listLiveData.value?.removeAt(i)
         listLiveData.notifyObserver()
     }
@@ -43,8 +43,8 @@ class MainViewModel @Inject constructor(
     private suspend fun parseJson(response: JSONObject): MutableList<GifModel> {
         return suspendCoroutine {
 
-            val list = mutableListOf<GifModel>()
-            val hiddenItemsList = repo.getAllItems()
+            val itemsList = mutableListOf<GifModel>()
+            val hiddenItems = repository.getHiddenItems()
 
             val data = Gson().fromJson(
                 response.toString(),
@@ -52,7 +52,7 @@ class MainViewModel @Inject constructor(
             ).getAsJsonArray("data")
 
             for (i in 0 until data.size()) {
-                list.add(
+                itemsList.add(
                     GifModel(
                         data.get(i).asJsonObject["type"].asString,
                         data.get(i).asJsonObject["id"].asString,
@@ -64,8 +64,8 @@ class MainViewModel @Inject constructor(
                 )
             }
 
-            list.removeAll(hiddenItemsList)
-            it.resume(list)
+            itemsList.removeAll(hiddenItems)
+            it.resume(itemsList)
         }
     }
 

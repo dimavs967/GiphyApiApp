@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Natife</string>
     <string name="search_bar_hint">Find your gif</string>
-
+    <string name="gallery_gif_view_description">Gallery gif view</string>
+    <string name="gallery_gif_fullscreen_view_description">Gallery gif fullscreen view</string>
 </resources>

@@ -4,15 +4,15 @@ import com.task.natife.data.db.GifDao
 import com.task.natife.model.GifModel
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(
+class MainRepository @Inject constructor(
     private val gifDao: GifDao
-): IUserRepository {
+) : IMainRepository {
 
     override suspend fun insertItem(gifModel: GifModel) {
         gifDao.insertItem(gifModel)
     }
 
-    override fun getAllItems(): MutableList<GifModel> {
+    override fun getHiddenItems(): MutableList<GifModel> {
         return gifDao.getAllItems()
     }
 
