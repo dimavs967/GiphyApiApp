@@ -55,10 +55,8 @@ class GifFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.toolbar.setOnClickListener {
-            view
-                .findNavController()
+            view.findNavController()
                 .navigate(GifFragmentDirections.actionGifFragmentToGalleryFragment())
-
             Navigation.findNavController(view).popBackStack(R.id.gifFragment, true)
         }
     }

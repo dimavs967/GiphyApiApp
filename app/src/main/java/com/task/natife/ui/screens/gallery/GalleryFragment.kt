@@ -50,11 +50,8 @@ class GalleryFragment : Fragment() {
         }
 
         adapter?.setOnClickListener {
-            view
-                .findNavController()
-                .navigate(
-                    GalleryFragmentDirections.actionGalleryFragmentToGifFragment(it)
-                )
+            view.findNavController()
+                .navigate(GalleryFragmentDirections.actionGalleryFragmentToGifFragment(it))
         }
 
         adapter?.setOnLongClickListener {

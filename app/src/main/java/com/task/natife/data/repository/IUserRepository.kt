@@ -6,6 +6,7 @@ interface IUserRepository {
 
     suspend fun insertItem(gifModel: GifModel)
 
-    fun getItem(id: String): GifModel
+//    fun getItem(id: String): GifModel
 
+    fun getAllItems(): MutableList<GifModel>
 }
