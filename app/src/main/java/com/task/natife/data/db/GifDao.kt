@@ -12,9 +12,6 @@ interface GifDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertItem(gifModel: GifModel)
 
-//    @Query("SELECT * FROM gifs_table WHERE gifId = :gifId")
-//    fun getHiddenItem(gifId: String): GifModel
-
     @Query("SELECT * FROM gifs_table")
     fun getAllItems(): MutableList<GifModel>
 

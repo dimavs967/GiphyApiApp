@@ -14,8 +14,8 @@ import kotlin.coroutines.suspendCoroutine
 class VolleyService @Inject constructor(
     private val requestQueue: RequestQueue
 ) {
-    suspend fun jsonRequest(item: String): JSONObject {
 
+    suspend fun jsonRequest(item: String): JSONObject {
         val url = "${BASE_URL}search?api_key=${GIPHY_API_KEY}&amp;q=${item}&amp;limit=10"
 
         return suspendCoroutine {

@@ -12,10 +12,6 @@ class UserRepository @Inject constructor(
         gifDao.insertItem(gifModel)
     }
 
-//    override fun getItem(id: String): GifModel {
-//        return gifDao.getHiddenItem(id)
-//    }
-
     override fun getAllItems(): MutableList<GifModel> {
         return gifDao.getAllItems()
     }

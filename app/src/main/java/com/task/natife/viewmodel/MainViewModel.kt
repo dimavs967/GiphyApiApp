@@ -9,8 +9,6 @@ import com.task.natife.data.remote.VolleyService
 import com.task.natife.data.repository.UserRepository
 import com.task.natife.model.GifModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -39,22 +37,15 @@ class MainViewModel @Inject constructor(
             netService.jsonRequest(item)
         )
 
-        listLiveData.postValue(checkForHiddenGifs(gifsList))
+        listLiveData.postValue(gifsList)
     }
-
-    private suspend fun checkForHiddenGifs(data: MutableList<GifModel>): MutableList<GifModel> =
-        withContext(Dispatchers.IO) {
-            return@withContext suspendCoroutine {
-                val hiddenItemsList = repo.getAllItems()
-                data.removeAll(hiddenItemsList)
-                it.resume(data)
-            }
-        }
 
     private suspend fun parseJson(response: JSONObject): MutableList<GifModel> {
         return suspendCoroutine {
 
             val list = mutableListOf<GifModel>()
+            val hiddenItemsList = repo.getAllItems()
+
             val data = Gson().fromJson(
                 response.toString(),
                 JsonObject::class.java
@@ -73,6 +64,7 @@ class MainViewModel @Inject constructor(
                 )
             }
 
+            list.removeAll(hiddenItemsList)
             it.resume(list)
         }
     }
